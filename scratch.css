@@ -168,6 +168,7 @@ body {
 /* ── Next button ── */
 .next-btn {
     margin-top: 1rem;
+    margin-bottom: 5rem;
     opacity: 0;
     transform: translateY(12px);
     transition: opacity 0.5s 0.2s ease, transform 0.5s 0.2s ease;
