@@ -1,0 +1,122 @@
+/* finale.css — styles specific to finale.html */
+
+.page-wrap {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2.5rem 1.5rem 100px;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 50% 30%, #fcd5ce 0%, var(--cream) 55%, #f0e8dc 100%);
+}
+
+.sparkle {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+    animation: sparklePop ease-in-out infinite;
+}
+@keyframes sparklePop {
+    0%, 100% { opacity: 0; transform: scale(0.5) rotate(0deg); }
+    50% { opacity: 0.5; transform: scale(1.2) rotate(20deg); }
+}
+
+.hero-heart {
+    font-size: clamp(4rem, 15vw, 6.5rem);
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: heartbeat 1.3s ease-in-out infinite, fadeUp 0.8s 0.2s forwards;
+}
+
+.main-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 8vw, 4rem);
+    color: var(--text-dark);
+    line-height: 1.1;
+    margin-bottom: 0.6rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.45s forwards;
+}
+.main-title em { color: var(--rose); font-style: italic; }
+
+.year-number {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(4rem, 16vw, 7rem);
+    font-style: italic;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--rose);
+    line-height: 1;
+    margin: 0.3rem 0;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.65s forwards;
+}
+
+.subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 3.5vw, 1.3rem);
+    font-style: italic;
+    color: var(--text-mid);
+    margin-bottom: 0.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.85s forwards;
+}
+
+.photo-polaroid {
+    background: #fff;
+    padding: 10px 10px 32px;
+    box-shadow: 0 8px 30px rgba(139,94,82,0.2), 4px 4px 0 rgba(201,169,110,0.15);
+    border-radius: 3px;
+    transform: rotate(2deg);
+    margin: 1.5rem auto;
+    max-width: 220px;
+    width: 65%;
+    transition: transform 0.35s;
+    opacity: 0;
+    animation: fadeUp 0.8s 1.05s forwards;
+}
+.photo-polaroid:hover { transform: rotate(0deg) scale(1.04); }
+.photo-polaroid img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; background: var(--cream-dark); }
+.photo-polaroid .polaroid-caption { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.8rem; color: var(--text-mid); text-align: center; margin-top: 0.4rem; }
+
+.message-card {
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(232,164,164,0.3);
+    border-radius: 16px;
+    padding: 1.5rem 1.8rem;
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 1.2s forwards;
+    box-shadow: 0 4px 20px rgba(139,94,82,0.08);
+}
+.message-card p { font-family: 'Cormorant Garamond', serif; font-size: clamp(1rem,3.2vw,1.15rem); line-height: 1.85; color: var(--text-dark); font-style: italic; }
+.message-card .highlight { color: var(--rose); font-weight: 600; }
+
+.cta-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.8s 1.4s forwards;
+}
+
+.names-line {
+    margin-top: 2rem;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(0.9rem, 3vw, 1.2rem);
+    color: var(--text-light);
+    letter-spacing: 0.12em;
+    opacity: 0;
+    animation: fadeUp 0.8s 1.6s forwards;
+}
+
+@media (min-width: 480px) {
+    .cta-group { flex-direction: row; }
+}

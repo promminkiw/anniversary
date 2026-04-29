@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>💌 จดหมายถึงเธอ</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="letter.css">
+</head>
+
+<body>
+    <div id="page-transition"></div>
+
+    <main class="page-wrap">
+
+        <div class="page-header">
+            <p class="eyebrow">✦ For You ✦</p>
+            <h1>คำอวยพร</h1>
+        </div>
+
+        <!-- Envelope -->
+        <div class="envelope-wrap">
+            <div class="envelope" id="envelope" onclick="openEnvelope()">
+                <div class="env-body">
+                    <div class="env-flap"></div>
+                    <div class="env-wax">💗</div>
+                    <div class="env-stamp">🤓</div>
+                </div>
+            </div>
+            <p class="env-hint" id="envHint">✨ แตะซองเพื่อเปิด</p>
+        </div>
+
+        <!-- Letter -->
+        <div class="letter-paper" id="letterPaper">
+            <div class="letter-header">
+                <p class="letter-date">📅 02/05/2007 &nbsp;·&nbsp; อายุ 19 ขวบ</p>
+                <h2 class="letter-to">ถึงเมียสุดที่รัก</h2>
+            </div>
+
+            <img class="letter-photo" src="./img/Ttat2.jpg" alt="Our photo"
+                onerror="this.style.background='#f5d5c0'; this.style.minHeight='160px'; this.removeAttribute('onerror');">
+            <!-- <p class="photo-caption">📷 [คำบรรยายรูป — เช่น "วันแรกที่เราเจอกัน 🌸"]</p> -->
+
+            <div class="letter-body">
+                <p>สุขสันต์วันเกิดนะแก้มสวย! <span class="hi">อายุครบ 19 ปีพอดี</span>
+                    ดีใจมากที่มีแก้มใสเข้ามาในชีวิต และได้เห็นแก้มใสแก่ขึ้นอีกปี</p>
+                <p>ขอบคุณที่อยู่ด้วยกันมา</p>
+                <p>เค้ารักทุกอย่างที่เป็นแก้มใสเลยนะ ทั้ง<span class="hi">ตอนที่น่ารักและไม่น่ารัก</span> 
+                ,<span>อาจจะไม่ได้อวยพรอะไรมากมายเพราะพูดไม่ค่อยเก่ง อิอิ</span> 
+                    <!-- ,<span class="hi">[ความใจดีที่มีให้กันเสมอ]</span> 
+                     และ<span class="hi">[ความตั้งใจในสิ่งที่แก้มใสรัก]</span></p> -->
+                <p>ขอให้ปีที่ 19 นี้ใจดีกับแก้มใส มีแต่ความสุขและรอยยิ้มในทุกๆ วันนะ — รักแก้มใสที่สุดในโลกเลย 💗</p>
+            </div>
+
+            <div class="letter-sign">
+                — รักแก้มใสเสมอ 🌹
+            </div>
+
+            <div class="letter-cta">
+                <a href="scratch.html" class="btn" onclick="navigateTo(event,'scratch.html')">
+                    🕹️ ไปเล่นมินิเกม →
+                </a>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item" onclick="navigateTo(event,'index.html')">
+            <span class="nav-icon">🏠</span>
+            <span>หน้าแรก</span>
+        </a>
+        <a href="letter.html" class="nav-item active" onclick="navigateTo(event,'letter.html')">
+            <span class="nav-icon">💌</span>
+            <span>คำอวยพร</span>
+        </a>
+        <a href="scratch.html" class="nav-item" onclick="navigateTo(event,'scratch.html')">
+            <span class="nav-icon">🕹️</span>
+            <span>มินิเกม</span>
+        </a>
+        <a href="finale.html" class="nav-item" onclick="navigateTo(event,'finale.html')">
+            <span class="nav-icon">🎉</span>
+            <span>เซอร์ไพรส์</span>
+        </a>
+    </nav>
+
+    <script>
+        /* ── Page transitions ── */
+        function navigateTo(e, url) {
+            e.preventDefault();
+            const overlay = document.getElementById('page-transition');
+            overlay.classList.add('fade-out');
+            setTimeout(() => { window.location.href = url; }, 320);
+        }
+        window.addEventListener('load', () => {
+            const o = document.getElementById('page-transition');
+            o.style.opacity = '1';
+            o.style.transition = 'none';
+            requestAnimationFrame(() => {
+                o.style.transition = 'opacity 0.4s ease';
+                o.style.opacity = '0';
+            });
+        });
+
+        /* ── Reveal on scroll ── */
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        /* ── Envelope open ── */
+        function openEnvelope() {
+            const env = document.getElementById('envelope');
+            const paper = document.getElementById('letterPaper');
+            const hint = document.getElementById('envHint');
+            if (env.classList.contains('open')) return;
+
+            env.classList.add('open');
+            hint.style.opacity = '0';
+
+            // petal burst from envelope position
+            burstPetals(env);
+
+            setTimeout(() => {
+                paper.style.display = 'block';
+                requestAnimationFrame(() => paper.classList.add('visible'));
+                paper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 550);
+        }
+
+        function burstPetals(origin) {
+            const rect = origin.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            const emojis = ['🌸', '💗', '✨', '🌷', '💌', '⭐', '🌺'];
+
+            if (!document.getElementById('petal-burst-kf')) {
+                const s = document.createElement('style');
+                s.id = 'petal-burst-kf';
+                s.textContent = `
+                    @keyframes petalBurst {
+                        0%   { opacity:1; transform:translate(0,0) scale(1.2) rotate(0deg); }
+                        100% { opacity:0; transform:translate(var(--dx),var(--dy)) scale(0.2) rotate(var(--dr)); }
+                    }
+                `;
+                document.head.appendChild(s);
+            }
+
+            for (let i = 0; i < 20; i++) {
+                const el = document.createElement('span');
+                const angle = (Math.PI * 2 / 20) * i + Math.random() * 0.3;
+                const dist = 70 + Math.random() * 90;
+                el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                el.style.cssText = `
+                    position:fixed; z-index:9999; pointer-events:none;
+                    left:${cx}px; top:${cy}px;
+                    font-size:${0.75 + Math.random() * 0.75}rem;
+                    --dx:${Math.cos(angle) * dist}px;
+                    --dy:${Math.sin(angle) * dist}px;
+                    --dr:${-180 + Math.random() * 360}deg;
+                    animation: petalBurst ${0.55 + Math.random() * 0.5}s ${i * 25}ms ease-out forwards;
+                `;
+                document.body.appendChild(el);
+                setTimeout(() => el.remove(), 1500);
+            }
+        }
+    </script>
+</body>
+
+</html>

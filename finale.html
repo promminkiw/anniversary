@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>🎉 Happy Birthday!</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="finale.css">
+</head>
+
+<body>
+    <div id="page-transition"></div>
+
+    <main class="page-wrap" id="pageWrap">
+
+        <!-- sparkles injected by JS -->
+
+        <div class="hero-heart">💗</div>
+
+        <h1 class="main-title">Happy<br><em>Birthday!</em></h1>
+
+        <div class="year-number">19</div>
+
+        <p class="subtitle">ขวบ</p>
+
+        <div class="divider-ornament" style="opacity:0;animation:fadeUp 0.8s 0.9s forwards">
+            <span>💗</span>
+        </div>
+
+        <!-- Polaroid -->
+        <div class="photo-polaroid">
+            <img src="./img/Ttat4.jpg" alt="Our photo"
+                onerror="this.style.background='#f5d5c0'; this.style.minHeight='140px'; this.removeAttribute('onerror');">
+            <p class="polaroid-caption">น่ารักมั้ย54554545555</p>
+        </div>
+
+        <!-- Message -->
+        <div class="message-card">
+            <p>
+                อยู่กับเค้านานๆห้ามทิ้งเค้า แล้วก้ๆๆ ไม่ให้ไปจีน อยู่ไทยกับเค้าจนเค้าเรียนจบก่อน54545554555
+            </p>
+        </div>
+
+        <!-- CTAs -->
+        <div class="cta-group">
+            <a href="letter.html" class="btn btn-outline" onclick="navigateTo(event,'letter.html')">
+                💌 อ่านจดหมายอีกครั้ง
+            </a>
+            <a href="index.html" class="btn" onclick="navigateTo(event,'index.html')">
+                🏠 กลับหน้าแรก
+            </a>
+        </div>
+
+        <p class="names-line">— [ธีร์] & [แก้มใส] —</p>
+
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item" onclick="navigateTo(event,'index.html')">
+            <span class="nav-icon">🏠</span>
+            <span>หน้าแรก</span>
+        </a>
+        <a href="letter.html" class="nav-item" onclick="navigateTo(event,'letter.html')">
+            <span class="nav-icon">💌</span>
+            <span>คำอวยพร</span>
+        </a>
+        <a href="scratch.html" class="nav-item" onclick="navigateTo(event,'scratch.html')">
+            <span class="nav-icon">🕹️</span>
+            <span>มินิเกม</span>
+        </a>
+        <a href="finale.html" class="nav-item active" onclick="navigateTo(event,'finale.html')">
+            <span class="nav-icon">🎉</span>
+            <span>เซอร์ไพรส์</span>
+        </a>
+    </nav>
+
+    <script>
+        /* ── Page transitions ── */
+        function navigateTo(e, url) {
+            e.preventDefault();
+            const overlay = document.getElementById('page-transition');
+            overlay.classList.add('fade-out');
+            setTimeout(() => { window.location.href = url; }, 320);
+        }
+        window.addEventListener('load', () => {
+            const o = document.getElementById('page-transition');
+            o.style.opacity = '1';
+            o.style.transition = 'none';
+            requestAnimationFrame(() => {
+                o.style.transition = 'opacity 0.4s ease';
+                o.style.opacity = '0';
+            });
+            // launch confetti & sparkles on load
+            setTimeout(launchConfetti, 600);
+            buildSparkles();
+            buildTwinklingStars();
+
+            // ripple on heart tap
+            document.querySelector('.hero-heart').addEventListener('click', rippleHearts);
+        });
+
+        /* ── Ripple hearts on tap ── */
+        function rippleHearts(e) {
+            const cx = e.clientX || window.innerWidth / 2;
+            const cy = e.clientY || window.innerHeight / 2;
+            const emojis = ['💗', '💖', '💕'];
+
+            if (!document.getElementById('ripple-kf')) {
+                const s = document.createElement('style');
+                s.id = 'ripple-kf';
+                s.textContent = `@keyframes rippleUp{0%{opacity:1;transform:translate(-50%,-50%) scale(0.5)}100%{opacity:0;transform:translate(-50%,calc(-50% - 80px)) scale(1.2)}}`;
+                document.head.appendChild(s);
+            }
+            for (let i = 0; i < 10; i++) {
+                const el = document.createElement('span');
+                el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                const jitterX = -40 + Math.random() * 80;
+                el.style.cssText = `
+                    position:fixed; z-index:9999; pointer-events:none;
+                    left:${cx + jitterX}px; top:${cy}px;
+                    font-size:${1 + Math.random() * 0.8}rem;
+                    animation: rippleUp ${0.6 + Math.random() * 0.4}s ${i * 60}ms ease-out forwards;
+                `;
+                document.body.appendChild(el);
+                setTimeout(() => el.remove(), 1200);
+            }
+        }
+
+        /* ── Twinkling stars background ── */
+        function buildTwinklingStars() {
+            if (!document.getElementById('twinkle-kf')) {
+                const s = document.createElement('style');
+                s.id = 'twinkle-kf';
+                s.textContent = `@keyframes twinkle{0%,100%{opacity:0.05}50%{opacity:0.35}}`;
+                document.head.appendChild(s);
+            }
+            for (let i = 0; i < 22; i++) {
+                const el = document.createElement('span');
+                el.textContent = '✦';
+                el.style.cssText = `
+                    position:fixed; z-index:0; pointer-events:none; color:#c9a96e;
+                    left:${Math.random()*100}vw; top:${Math.random()*100}vh;
+                    font-size:${0.4 + Math.random()*0.6}rem;
+                    animation: twinkle ${2 + Math.random()*4}s ${Math.random()*4}s ease-in-out infinite;
+                `;
+                document.body.appendChild(el);
+            }
+        }
+
+        /* ── Sparkle decorations ── */
+        function buildSparkles() {
+            const wrap = document.getElementById('pageWrap');
+            const emojis = ['💗', '💖', '💕'];
+            for (let i = 0; i < 14; i++) {
+                const s = document.createElement('span');
+                s.className = 'sparkle';
+                s.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                s.style.cssText = `
+      left:${5 + Math.random() * 90}%;
+      top:${5 + Math.random() * 90}%;
+      font-size:${0.7 + Math.random() * 1.1}rem;
+      animation-duration:${2.5 + Math.random() * 3}s;
+      animation-delay:${Math.random() * 3}s;
+    `;
+                wrap.appendChild(s);
+            }
+        }
+
+        /* ── Confetti ── */
+        function launchConfetti() {
+            const cols = ['#e8a4a4', '#f5cfc8', '#c9a96e', '#f5d5b8', '#e8d0a0', '#d4736e', '#f9ddd5'];
+            const style = document.createElement('style');
+            style.textContent = `@keyframes confettiFall{0%{transform:translateY(-10px) rotate(0);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}`;
+            document.head.appendChild(style);
+
+            for (let i = 0; i < 70; i++) {
+                setTimeout(() => {
+                    const el = document.createElement('div');
+                    const size = 6 + Math.random() * 7;
+                    el.style.cssText = `
+        position:fixed; z-index:9999; pointer-events:none;
+        left:${Math.random() * 100}vw; top:-14px;
+        width:${size}px; height:${size}px;
+        background:${cols[Math.floor(Math.random() * cols.length)]};
+        border-radius:${Math.random() > .45 ? '50%' : '3px'};
+        animation:confettiFall ${2.5 + Math.random() * 2.5}s ${Math.random() * 0.5}s linear forwards;
+      `;
+                    document.body.appendChild(el);
+                    setTimeout(() => el.remove(), 5500);
+                }, i * 45);
+            }
+        }
+    </script>
+</body>
+
+</html>

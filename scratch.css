@@ -1,0 +1,213 @@
+/* scratch.css — styles specific to scratch.html */
+
+/* Override page-wrap to be fullscreen slider container */
+body {
+    overflow: hidden;
+}
+
+.scratch-stage {
+    position: fixed;
+    inset: 0;
+    bottom: 60px; /* nav height */
+    overflow: hidden;
+}
+
+/* ── Card slides ── */
+.card-slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.2rem 1.4rem 1rem;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.45s cubic-bezier(0.4,0,0.2,1), transform 0.45s cubic-bezier(0.4,0,0.2,1);
+    pointer-events: none;
+}
+
+.card-slide.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: all;
+}
+
+.card-slide.exit-left {
+    opacity: 0;
+    transform: translateX(-100%);
+    pointer-events: none;
+}
+
+/* backgrounds per card */
+.card-slide:nth-child(1) { background: radial-gradient(ellipse at 60% 30%, #fcd5ce 0%, #fdf0e8 100%); }
+.card-slide:nth-child(2) { background: radial-gradient(ellipse at 40% 60%, #f5d5e8 0%, #fdf0f5 100%); }
+.card-slide:nth-child(3) { background: radial-gradient(ellipse at 70% 40%, #dde8f5 0%, #f0f4fd 100%); }
+.card-slide:nth-child(4) { background: radial-gradient(ellipse at 30% 70%, #d5f5e8 0%, #eefdf5 100%); }
+.card-slide:nth-child(5) { background: radial-gradient(ellipse at 60% 50%, #f5ead5 0%, #fdf8ee 100%); }
+.card-slide:nth-child(6) { background: radial-gradient(ellipse at 50% 30%, #fcd5ce 0%, #fdf0e8 100%); }
+.card-slide.card-done-slide { background: radial-gradient(ellipse at 50% 30%, #fce8e0 0%, #fdf6ee 100%); }
+
+/* ── Slide counter ── */
+.slide-counter {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.3em;
+    color: var(--text-light);
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+    opacity: 0.8;
+}
+
+/* ── Card title ── */
+.card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.1rem, 4vw, 1.5rem);
+    color: var(--text-dark);
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+.card-title em { color: var(--rose); }
+
+/* ── Scratch area ── */
+.scratch-area {
+    position: relative;
+    width: min(320px, 85vw);
+    height: min(640px, 110vmin);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(139,94,82,0.22), 0 4px 12px rgba(139,94,82,0.1);
+    cursor: crosshair;
+    touch-action: none;
+    flex-shrink: 0;
+}
+
+/* ── Revealed image layer ── */
+.reveal-layer {
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    overflow: hidden;
+}
+.reveal-layer img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.reveal-layer .emoji-bg {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+}
+.reveal-layer .emoji-bg .emoji-main {
+    font-size: clamp(3rem, 12vw, 5rem);
+    line-height: 1;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
+}
+.reveal-layer .emoji-bg .emoji-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.85rem, 3vw, 1.1rem);
+    color: var(--text-mid);
+    text-align: center;
+    padding: 0 1rem;
+}
+
+/* ── Scratch canvas (cover layer) ── */
+.scratch-canvas {
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    touch-action: none;
+    transition: opacity 0.4s ease;
+}
+
+/* ── Scratch hint ── */
+.scratch-hint {
+    margin-top: 0.9rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--text-light);
+    animation: pulse 2s ease-in-out infinite;
+    min-height: 1.4rem;
+}
+
+/* ── Message revealed under card ── */
+.reveal-message {
+    margin-top: 0.9rem;
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(232,164,164,0.3);
+    border-radius: 14px;
+    padding: 0.9rem 1.4rem;
+    max-width: min(320px, 85vw);
+    width: 100%;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    box-shadow: 0 4px 16px rgba(139,94,82,0.08);
+}
+.reveal-message.show { opacity: 1; transform: translateY(0); }
+.reveal-message p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.9rem, 3vw, 1.05rem);
+    line-height: 1.7;
+    color: var(--text-dark);
+}
+.reveal-message .msg-hi { color: var(--rose); font-weight: 600; }
+
+/* ── Next button ── */
+.next-btn {
+    margin-top: 1rem;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.5s 0.2s ease, transform 0.5s 0.2s ease;
+    pointer-events: none;
+}
+.next-btn.show { opacity: 1; transform: translateY(0); pointer-events: all; }
+
+/* ── Dot indicators ── */
+.dot-indicators {
+    position: fixed;
+    bottom: calc(60px + 1rem);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.45rem;
+    z-index: 100;
+}
+.dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: rgba(212,115,110,0.25);
+    transition: all 0.35s ease;
+}
+.dot.active { background: var(--rose); transform: scale(1.25); }
+.dot.done { background: var(--rose); opacity: 0.6; }
+
+/* ── Final / all done slide ── */
+.card-done-slide .done-hero { font-size: clamp(3rem,12vw,5rem); margin-bottom: 0.8rem; animation: heartbeat 1.4s ease-in-out infinite; }
+.card-done-slide h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem,6vw,2.5rem);
+    font-style: italic;
+    color: var(--rose);
+    margin-bottom: 0.5rem;
+}
+.card-done-slide p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.95rem,3.2vw,1.1rem);
+    color: var(--text-mid);
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+}
